@@ -1,0 +1,24 @@
+# MAUI-specific exclusions
+bin/
+obj/
+*.binlog
+*.userprefs
+*.user
+*.suo
+*.msbuild
+*.jfm
+*.DS_Store
+
+# Platform-specific artifacts
+Android/
+iOS/
+Maccatalyst/
+Windows/
+Tizen/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+*.pdb
+*.ilk
+*.nupkg
