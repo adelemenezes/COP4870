@@ -1,0 +1,96 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "Library.eCommerce/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Library.eCommerce.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Library.eCommerce.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Library.eCommerce/1.0.0": {
+      "type": "project",
+      "path": "../Library.eCommerce/Library.eCommerce.csproj",
+      "msbuildProject": "../Library.eCommerce/Library.eCommerce.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "Library.eCommerce >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/adelemenezes/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/ConsoleApp1/ConsoleApp1.csproj",
+      "projectName": "ConsoleApp1",
+      "projectPath": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/ConsoleApp1/ConsoleApp1.csproj",
+      "packagesPath": "/Users/adelemenezes/.nuget/packages/",
+      "outputPath": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/ConsoleApp1/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/adelemenezes/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "/usr/local/share/dotnet/library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {
+            "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/Library.eCommerce/Library.eCommerce.csproj": {
+              "projectPath": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/Library.eCommerce/Library.eCommerce.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.200"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
