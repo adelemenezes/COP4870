@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+// NEVER MODIFY!!
 
 namespace Maui.eCommerce;
 
@@ -20,5 +21,6 @@ public static class MauiProgram
 #endif
 
 		return builder.Build();
+		// helper class called build
 	}
 }

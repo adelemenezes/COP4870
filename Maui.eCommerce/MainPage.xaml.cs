@@ -1,24 +1,32 @@
-﻿namespace Maui.eCommerce;
+﻿using Maui.eCommerce.ViewModels;
+
+namespace Maui.eCommerce;
 
 public partial class MainPage : ContentPage
+// partial allows it to split the class into multiple files
+// C++ doesn't need this becaue it has scope resolution
+// MainPage is based off of content page, which is a class in the Maui framework
 {
-	int count = 0;
-
+	
 	public MainPage()
 	{
-		InitializeComponent();
+		InitializeComponent(); // binding context
+		BindingContext = new MainViewModel(); // of type object
+		// used to bind data to front end view
+		// this is not MVVM
 	}
 
-	private void OnCounterClicked(object sender, EventArgs e)
+	
+
+	public void InventoryManagementClicked(object sender, EventArgs e)
 	{
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
+		Shell.Current.GoToAsync("//InventoryManagement"); // go to the inventory management page
 	}
+
+	public void ShoppingClicked(object sender, EventArgs e)
+	{
+		Shell.Current.GoToAsync("//Shopping"); // // means next directory down
+	}
+
 }
 

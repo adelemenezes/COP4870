@@ -42,3 +42,54 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+
+
+# MAUI-specific exclusions
+bin/
+obj/
+*.binlog
+*.userprefs
+*.user
+*.suo
+*.msbuild
+*.jfm
+*.DS_Store
+
+# Platform-specific artifacts
+Android/
+iOS/
+Maccatalyst/
+Windows/
+Tizen/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+*.pdb
+*.ilk
+*.nupkg
+
+# MAUI-specific exclusions
+bin/
+obj/
+*.binlog
+*.userprefs
+*.user
+*.suo
+*.msbuild
+*.jfm
+*.DS_Store
+
+# Platform-specific artifacts
+Android/
+iOS/
+Maccatalyst/
+Windows/
+Tizen/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+*.pdb
+*.ilk
+*.nupkg
