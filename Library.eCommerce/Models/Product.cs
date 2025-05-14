@@ -54,6 +54,15 @@ namespace Library.eCommerce.Models
             ID = key;
         }
 
+        public Product()
+        {
+            Name = "NULL";
+            ID = 0;
+            Quantity = 0;
+            Price = 0;
+            Rating = 1;
+        }
+
         public Product(Product p)
         {
             Name = p.Name;
@@ -77,9 +86,20 @@ namespace Library.eCommerce.Models
             return true;
         }
 
-        public override string ToString()
+        /*public override string ToString()
         {
             return $"ID: {ID}\n\tName: {Name}\n\tQuantity: {Quantity}\n\tPrice: ${Price:F2}\n\tRating: {Rating}";
+        }*/
+        public string? Display{
+            get
+            {
+                return $"ID: {ID}\tName: {Name}\tQuantity: {Quantity}\tPrice: ${Price:F2}\tRating: {Rating}";
+            }
+
+        }
+        public override string ToString()
+        {
+            return Display ?? string.Empty; 
         }
     }
 }
