@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/ConsoleApp1/ConsoleApp1.csproj",
+      "projectUniqueName": "/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/ConsoleApp1/ConsoleApp1.csproj",
       "projectName": "ConsoleApp1",
-      "projectPath": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/ConsoleApp1/ConsoleApp1.csproj",
+      "projectPath": "/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/ConsoleApp1/ConsoleApp1.csproj",
       "packagesPath": "/Users/adelemenezes/.nuget/packages/",
-      "outputPath": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/ConsoleApp1/obj/",
+      "outputPath": "/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/ConsoleApp1/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/adelemenezes/.nuget/NuGet/NuGet.Config"
@@ -52,8 +52,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/Library.eCommerce/Library.eCommerce.csproj": {
-              "projectPath": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/ConsoleApp_COP4870/Library.eCommerce/Library.eCommerce.csproj"
+            "/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/Library.eCommerce.csproj": {
+              "projectPath": "/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/Library.eCommerce.csproj"
             }
           }
         }

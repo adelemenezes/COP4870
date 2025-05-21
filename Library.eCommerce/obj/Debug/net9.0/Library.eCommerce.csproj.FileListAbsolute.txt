@@ -21,3 +21,15 @@
 /Users/adelemenezes/Desktop/School/Spring 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/refint/Library.eCommerce.dll
 /Users/adelemenezes/Desktop/School/Spring 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/Library.eCommerce.pdb
 /Users/adelemenezes/Desktop/School/Spring 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/ref/Library.eCommerce.dll
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/bin/Debug/net9.0/Library.eCommerce.deps.json
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/bin/Debug/net9.0/Library.eCommerce.dll
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/bin/Debug/net9.0/Library.eCommerce.pdb
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/Library.eCommerce.GeneratedMSBuildEditorConfig.editorconfig
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/Library.eCommerce.AssemblyInfoInputs.cache
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/Library.eCommerce.AssemblyInfo.cs
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/Library.eCommerce.csproj.CoreCompileInputs.cache
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/Library.eCommerce.sourcelink.json
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/Library.eCommerce.dll
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/refint/Library.eCommerce.dll
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/Library.eCommerce.pdb
+/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/Debug/net9.0/ref/Library.eCommerce.dll

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/COP4870-main/Library.eCommerce/Library.eCommerce.csproj",
+      "projectUniqueName": "/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/Library.eCommerce.csproj",
       "projectName": "Library.eCommerce",
-      "projectPath": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/COP4870-main/Library.eCommerce/Library.eCommerce.csproj",
+      "projectPath": "/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/Library.eCommerce.csproj",
       "packagesPath": "/Users/adelemenezes/.nuget/packages/",
-      "outputPath": "/Users/adelemenezes/Desktop/School/Spring 2025/COP4870/COP4870-main/Library.eCommerce/obj/",
+      "outputPath": "/Users/adelemenezes/Desktop/School/Summer 2025/COP4870/COP4870-main/Library.eCommerce/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/adelemenezes/.nuget/NuGet/NuGet.Config"
