@@ -12,7 +12,6 @@
             Text="{Binding Name}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-
         <Button
             Text="OK" 
             VerticalOptions="Center" 

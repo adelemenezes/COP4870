@@ -1,28 +1,34 @@
-using Library.eCommerce.Models;
-using Library.eCommerce.Services;
 using Maui.eCommerce.ViewModels;
+using Library.eCommerce.Services;
 
-namespace Maui.eCommerce.Views;
-
-public partial class ProductDetails : ContentPage
+namespace Maui.eCommerce.Views
 {
-	public ProductDetails()
-	{
-		InitializeComponent();
-		BindingContext = new ProductDetailsViewModel(); // set the binding context to the view model
-	}
+    public partial class ProductDetails : ContentPage
+    {
+        public ProductDetails()
+        {
+            InitializeComponent();
+            
+            // Initialize with your existing services
+            var commerceService = new CommerceService(
+                ProductServiceProxy.Current,
+                new CartService(ProductServiceProxy.Current)
+            );
+            
+            BindingContext = new ProductDetailsViewModel(commerceService);
+        }
 
-	private void ReturnToInventoryClicked(object sender, EventArgs e)
-	{
-		Shell.Current.GoToAsync("//InventoryManagement"); // go to the main page
-	}
-	private void ProductOKClicked(object sender, EventArgs e)
-	{
-		var name = (BindingContext as ProductDetailsViewModel).Name; // get the product from the BindingContext
-		if (name != null)
-		{
-			ProductServiceProxy.Current.AddProduct(new Product() { Name = name }); // add the product to the service
-		}
-		Shell.Current.GoToAsync("//InventoryManagement"); // go to the main page
+        private void ReturnToInventoryClicked(object sender, EventArgs e)
+        {
+            Shell.Current.GoToAsync("//InventoryManagement");
+        }
+
+        private void ProductOKClicked(object sender, EventArgs e)
+        {
+            if (BindingContext is ProductDetailsViewModel ProductsVM && ProductsVM.AddProduct())
+            {
+                Shell.Current.GoToAsync("//InventoryManagement");
+            }
+        }
     }
 }

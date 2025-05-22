@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Library.eCommerce.Models; // For Product class
+using Library.eCommerce.Models;
 using Library.eCommerce.Services;
 
 namespace Library.eCommerce.Models
@@ -25,7 +25,7 @@ namespace Library.eCommerce.Models
             Cart = new List<Product>();
         }
 
-       public bool CreateItem()
+        public bool CreateItem()
         {
             Console.WriteLine("Please enter the following: ");
             Console.Write("Name: ");
@@ -49,8 +49,7 @@ namespace Library.eCommerce.Models
 
             Console.WriteLine("Invalid input - item not created");
             return false;
-}
-
+        }
 
         public void Read(char whichList)
         {
@@ -140,8 +139,8 @@ namespace Library.eCommerce.Models
             Console.Write("New quantity: ");
             int tempQ = ValidateQuantity(Console.ReadLine() ?? string.Empty);
 
-            Product cartItem = Cart.Find(p => p.ID == id);
-            Product inventoryItem = Inventory.Find(p => p.ID == id);
+            Product? cartItem = Cart.Find(p => p.ID == id);
+            Product? inventoryItem = Inventory.Find(p => p.ID == id);
 
             if (cartItem == null || inventoryItem == null)
             {
@@ -210,8 +209,8 @@ namespace Library.eCommerce.Models
                 return false;
             }
 
-            Product cartItem = Cart.Find(p => p.ID == id);
-            Product inventoryItem = Inventory.Find(p => p.ID == id);
+            Product? cartItem = Cart.Find(p => p.ID == id);
+            Product? inventoryItem = Inventory.Find(p => p.ID == id);
 
             if (cartItem == null || inventoryItem == null)
             {
@@ -234,7 +233,7 @@ namespace Library.eCommerce.Models
                 return false;
             }
 
-            Product inventoryItem = Inventory.Find(p => p.ID == id);
+            Product? inventoryItem = Inventory.Find(p => p.ID == id);
             if (inventoryItem == null)
             {
                 Console.WriteLine("ERROR: Item could not be found.");
@@ -247,7 +246,7 @@ namespace Library.eCommerce.Models
                 return false;
             }
 
-            Product cartItem = Cart.Find(p => p.ID == id);
+            Product? cartItem = Cart.Find(p => p.ID == id);
             if (cartItem != null)
             {
                 cartItem.Quantity++;

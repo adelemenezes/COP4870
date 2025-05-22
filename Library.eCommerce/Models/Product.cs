@@ -4,19 +4,18 @@ namespace Library.eCommerce.Models
 {
     public class Product
     {
-        private string _name;
+        private string _name = "NULL"; // Initialize with default
         private int _quantity;
         private double _price;
         private int _rating;
         
-        public event Action<double> PriceChanged;
+        public event Action<double>? PriceChanged; // Make nullable
 
         public string Name
         {
             get => _name;
             set => _name = string.IsNullOrWhiteSpace(value) ? "NULL" : value;
         }
-
         public int Quantity
         {
             get => _quantity;
@@ -76,7 +75,7 @@ namespace Library.eCommerce.Models
 
         public static bool TryCreate(string name, string quantityStr, string priceStr, string ratingStr, long id, out Product product)
         {
-            product = null;
+            product = default!;
             
             if (!int.TryParse(quantityStr, out int quantity)) return false;
             if (!double.TryParse(priceStr, out double price)) return false;

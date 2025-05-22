@@ -8,6 +8,10 @@ namespace Library.eCommerce.Services
 {
     public class ProductServiceProxy : IProductService
     {
+        private static ProductServiceProxy? instance;
+        private static readonly object instanceLock = new();
+        public List<Product> Products { get; private set; }
+        private long _highestIdUsed = 0;
         private ProductServiceProxy()
         {
             Products = new List<Product>{ // creating default list of products
@@ -18,9 +22,6 @@ namespace Library.eCommerce.Services
                 new Product{ID = 4, Name = "Product4"}
             };
         }
-
-        private static ProductServiceProxy? instance;
-        private static readonly object instanceLock = new();
 
         public static ProductServiceProxy Current
         {
@@ -37,14 +38,17 @@ namespace Library.eCommerce.Services
             }
         }
 
-        public List<Product> Products { get; private set; }
-
         public long GetNextProductId()
         {
             lock (instanceLock)
             {
-                return Products.Any() ? Products.Max(p => p.ID) + 1 : 1;
+                return GetNextId();
             }
+        }
+
+        private long GetNextId()
+        {
+            return ++_highestIdUsed;
         }
 
         public Product AddProduct(Product product)
