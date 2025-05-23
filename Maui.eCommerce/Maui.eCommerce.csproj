@@ -45,4 +45,10 @@
   <ProjectReference Include="..\Library.eCommerce\Library.eCommerce.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views/AddProductView.xaml.cs">
+      <DependentUpon>AddProductView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

@@ -29,7 +29,7 @@ namespace Maui.eCommerce.Views
 
         private void AddClicked(object sender, EventArgs e)
         {
-            Shell.Current.GoToAsync("//ProductDetails");
+            Shell.Current.GoToAsync("//AddProductView");
         }
 
         private void ContentPage_NavigatingTo(object sender, NavigatedToEventArgs e)
