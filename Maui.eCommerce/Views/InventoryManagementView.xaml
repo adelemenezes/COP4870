@@ -25,7 +25,9 @@
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column = "0" Text="{Binding Display}"/>
                         <Button Grid.Column = "1" Text = "Edit"/>
-                        <Button Grid.Column = "2" Text = "Delete"/>
+                        <Button Grid.Column = "2" Text = "Delete"
+                        Clicked="DeleteClicked"
+                        CommandParameter="{Binding}"/>
                     </Grid>
                 </ViewCell>
             </DataTemplate>
@@ -39,7 +41,8 @@
     <Button
         Text="Edit" 
         VerticalOptions="Center" 
-        HorizontalOptions="Center" />
+        HorizontalOptions="Center" 
+        Clicked="EditClicked"/>
     <Button
         Text="Delete" 
         VerticalOptions="Center" 

@@ -35,6 +35,21 @@ namespace Maui.eCommerce.ViewModels
             return deletedProduct;
         }
 
+        public void DeleteProduct(Product? product = null)
+        {
+            var productToDelete = product ?? SelectedProduct;
+            if (productToDelete == null) return;
+
+            _commerceService.RemoveProduct(productToDelete?.ID ?? 0);
+            
+            if (productToDelete == SelectedProduct)
+            {
+                SelectedProduct = null;
+            }
+            
+            NotifyPropertyChanged(nameof(Products));
+        }
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

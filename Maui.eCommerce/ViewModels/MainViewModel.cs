@@ -16,7 +16,7 @@ namespace Maui.eCommerce.ViewModels
             );
         }
 
-        public string Display => "Hello World!";
+        public string Display => "Thanks for shopping with us!";
         
         // For potential future use in ShoppingView
         public ObservableCollection<Product> CartItems => 

@@ -3,9 +3,12 @@ using Library.eCommerce.Services;
 
 namespace Maui.eCommerce.Views
 {
-    public partial class AddProductView : ContentPage
+    [QueryProperty(nameof(ProductId), "productId")]
+    public partial class EditProductView : ContentPage
     {
-        public AddProductView()
+        public long ProductId { get; set; }
+
+        public EditProductView()
         {
             InitializeComponent();
             var commerceService = new CommerceService(
@@ -15,19 +18,20 @@ namespace Maui.eCommerce.Views
             BindingContext = new ProductFormViewModel(commerceService);
         }
 
+        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+            if (BindingContext is ProductFormViewModel vm && ProductId > 0)
+                vm.LoadProduct(ProductId);
+        }
+
         private void OnCancelClicked(object sender, EventArgs e)
             => Shell.Current.GoToAsync("//InventoryManagement");
 
-        private void OnAddClicked(object sender, EventArgs e)
+        private void OnSaveClicked(object sender, EventArgs e)
         {
             if (BindingContext is ProductFormViewModel vm && vm.SaveProduct())
                 Shell.Current.GoToAsync("//InventoryManagement");
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            (BindingContext as ProductFormViewModel)?.ResetForm();
         }
     }
 }
