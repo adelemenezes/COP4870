@@ -9,51 +9,56 @@ namespace Maui.eCommerce.Views
         public InventoryManagementView()
         {
             InitializeComponent();
-            
-            var commerceService = new CommerceService(
-                ProductServiceProxy.Current,
-                new CartService(ProductServiceProxy.Current)
-            );
+    
+            var productService = ProductServiceProxy.Current;
+            var cartService = ProductServiceProxy.CartService; 
+            var commerceService = new CommerceService(productService, cartService);
             
             BindingContext = new InventoryManagementViewModel(commerceService);
         }
 
-        private void ReturnToManagementMenuClicked(object sender, EventArgs e)
+        private void ReturnToManagementMenuClicked(object sender, EventArgs e) 
+            => Shell.Current.GoToAsync("//MainPage");
+
+        private void AddClicked(object sender, EventArgs e) 
+            => Shell.Current.GoToAsync("//AddProductView");
+
+        private void EditClicked(object sender, EventArgs e)
         {
-            Shell.Current.GoToAsync("//MainPage");
+            if (sender is Button button && button.BindingContext is Product product)
+            {
+                Shell.Current.GoToAsync($"//EditProductView?productId={product.ID}");
+            }
         }
 
         private void DeleteClicked(object sender, EventArgs e)
         {
-            if (BindingContext is InventoryManagementViewModel viewModel)
+            if (sender is Button button && button.BindingContext is Product product)
             {
-                if (sender is Button button && button.BindingContext is Product product)
+                if (BindingContext is InventoryManagementViewModel vm)
                 {
-                    viewModel.DeleteProduct(product);
-                }
-                else
-                {
-                    viewModel.DeleteProduct(); // Uses SelectedProduct
+                    vm.DeleteProduct(product);
                 }
             }
-}      
-
-        private void AddClicked(object sender, EventArgs e)
-        {
-            Shell.Current.GoToAsync("//AddProductView");
         }
 
-        private void EditClicked(object sender, EventArgs e)
+        private void AddToCartClicked(object sender, EventArgs e)
         {
-            if (BindingContext is not InventoryManagementViewModel { SelectedProduct: { } product })
-                return;
-
-            Shell.Current.GoToAsync($"//EditProductView?productId={product.ID}");
+            if (sender is Button button && button.BindingContext is Product product)
+            {
+                if (BindingContext is InventoryManagementViewModel vm)
+                {
+                    vm.AddToCart(product);
+                }
+            }
         }
 
-        private void ContentPage_NavigatingTo(object sender, NavigatedToEventArgs e)
+        private void OnNavigatedTo(object sender, NavigatedToEventArgs e)
         {
-            (BindingContext as InventoryManagementViewModel)?.RefreshProductList();
+            if (BindingContext is InventoryManagementViewModel vm)
+            {
+                vm.RefreshProductList();
+            }
         }
     }
 }

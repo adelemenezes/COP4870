@@ -8,18 +8,22 @@ namespace Library.eCommerce.Services
 {
     public class ProductServiceProxy : IProductService
     {
-        private static ProductServiceProxy? instance;
-        private static readonly object instanceLock = new();
+        private static ProductServiceProxy? _instance;
+        private static readonly object _instanceLock = new();
+        private static CartService? _cartService;
+        private static readonly object _cartServiceLock = new();
+        
         public List<Product> Products { get; private set; }
         private long _highestIdUsed = 0;
+
         private ProductServiceProxy()
         {
-            Products = new List<Product>{ // creating default list of products
-
-                new Product{ID = 1, Name = "Product1", Quantity = 10, Price = 100.0, Rating = 5},
-                new Product{ID = 2, Name = "Product2"},
-                new Product{ID = 3, Name = "Product3"},
-                new Product{ID = 4, Name = "Product4"}
+            Products = new List<Product>
+            {
+                new Product { ID = 1, Name = "Product1", Quantity = 10, Price = 100.0, Rating = 5 },
+                new Product { ID = 2, Name = "Product2" },
+                new Product { ID = 3, Name = "Product3" },
+                new Product { ID = 4, Name = "Product4" }
             };
         }
 
@@ -27,33 +31,37 @@ namespace Library.eCommerce.Services
         {
             get
             {
-                if (instance == null)
+                lock (_instanceLock)
                 {
-                    lock (instanceLock)
-                    {
-                        instance ??= new ProductServiceProxy();
-                    }
+                    _instance ??= new ProductServiceProxy();
+                    return _instance;
                 }
-                return instance;
+            }
+        }
+
+        public static CartService CartService
+        {
+            get
+            {
+                lock (_cartServiceLock)
+                {
+                    _cartService ??= new CartService(Current);
+                    return _cartService;
+                }
             }
         }
 
         public long GetNextProductId()
         {
-            lock (instanceLock)
+            lock (_instanceLock)
             {
-                return GetNextId();
+                return ++_highestIdUsed;
             }
-        }
-
-        private long GetNextId()
-        {
-            return ++_highestIdUsed;
         }
 
         public Product AddProduct(Product product)
         {
-            lock (instanceLock)
+            lock (_instanceLock)
             {
                 Products.Add(product);
                 return product;
@@ -62,7 +70,7 @@ namespace Library.eCommerce.Services
 
         public bool RemoveProduct(long id)
         {
-            lock (instanceLock)
+            lock (_instanceLock)
             {
                 return Products.RemoveAll(p => p.ID == id) > 0;
             }
@@ -70,7 +78,7 @@ namespace Library.eCommerce.Services
 
         public Product? GetProduct(long id)
         {
-            lock (instanceLock)
+            lock (_instanceLock)
             {
                 return Products.FirstOrDefault(p => p.ID == id);
             }
@@ -78,7 +86,7 @@ namespace Library.eCommerce.Services
 
         public IEnumerable<Product> GetAllProducts()
         {
-            lock (instanceLock)
+            lock (_instanceLock)
             {
                 return Products.ToList();
             }

@@ -2,56 +2,49 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.eCommerce.Views.InventoryManagementView"
-             Title="InventoryManagementView"
-             NavigatedTo ="ContentPage_NavigatingTo"
-             >
+             Title="Inventory Management"
+             NavigatedTo="OnNavigatedTo">
     <VerticalStackLayout>
-    <Label 
-        Text="Inventory Management"
-        VerticalOptions="Center" 
-        HorizontalOptions="Center" />
-    <ListView 
-        ItemsSource="{Binding Products}"
-        SelectedItem="{Binding SelectedProduct}"
-        >
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10*"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column = "0" Text="{Binding Display}"/>
-                        <Button Grid.Column = "1" Text = "Edit"/>
-                        <Button Grid.Column = "2" Text = "Delete"
-                        Clicked="DeleteClicked"
-                        CommandParameter="{Binding}"/>
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
-    <Button
-        Text="Add" 
-        VerticalOptions="Center" 
-        HorizontalOptions="Center" 
-        Clicked="AddClicked" />
-    <Button
-        Text="Edit" 
-        VerticalOptions="Center" 
-        HorizontalOptions="Center" 
-        Clicked="EditClicked"/>
-    <Button
-        Text="Delete" 
-        VerticalOptions="Center" 
-        HorizontalOptions="Center" 
-        Clicked="DeleteClicked" />
-    <Button
-        Text="Return to Management Menu" 
-        VerticalOptions="Center" 
-        HorizontalOptions="Center" 
-        Clicked="ReturnToManagementMenuClicked" />
-</VerticalStackLayout>
+        <Label Text="Inventory Management"
+               VerticalOptions="Center" 
+               HorizontalOptions="Center" />
+        <ListView ItemsSource="{Binding Products}"
+                  SelectedItem="{Binding SelectedProduct}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Label Grid.Column="0" Text="{Binding Display}"/>
+                            <Button Grid.Column="1" Text="Edit"
+                                    Clicked="EditClicked"
+                                    CommandParameter="{Binding}"/>
+                            <Button Grid.Column="2" Text="Add"
+                                    Clicked="AddToCartClicked"
+                                    CommandParameter="{Binding}"/>
+                            <Button Grid.Column="3" Text="Del"
+                                    Clicked="DeleteClicked"
+                                    CommandParameter="{Binding}"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+                
+                        
+        </ListView>
+        <Button Text="Add" 
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                Clicked="AddClicked" />
+        <Button Text="Return to Management Menu" 
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                Clicked="ReturnToManagementMenuClicked" />
+    </VerticalStackLayout>
 </ContentPage>

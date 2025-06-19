@@ -3,12 +3,14 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Library.eCommerce.Interfaces;
 using Library.eCommerce.Models;
+using Microsoft.Maui.ApplicationModel;
 
 namespace Maui.eCommerce.ViewModels
 {
     public class InventoryManagementViewModel : INotifyPropertyChanged
     {
         private readonly ICommerceService _commerceService;
+        private ObservableCollection<Product>? _products;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -18,7 +20,7 @@ namespace Maui.eCommerce.ViewModels
         }
 
         public ObservableCollection<Product> Products => 
-            new ObservableCollection<Product>(_commerceService.GetAllProducts());
+            _products ??= new ObservableCollection<Product>(_commerceService.GetAllProducts());
 
         public Product? SelectedProduct { get; set; }
 
@@ -28,10 +30,9 @@ namespace Maui.eCommerce.ViewModels
 
             var deletedProduct = SelectedProduct;
             _commerceService.RemoveProduct(SelectedProduct.ID);
-            
+            RefreshProductList();
             SelectedProduct = null;
-            NotifyPropertyChanged(nameof(Products));
-            
+
             return deletedProduct;
         }
 
@@ -40,14 +41,27 @@ namespace Maui.eCommerce.ViewModels
             var productToDelete = product ?? SelectedProduct;
             if (productToDelete == null) return;
 
-            _commerceService.RemoveProduct(productToDelete?.ID ?? 0);
+            _commerceService.RemoveProduct(productToDelete.ID);
+            RefreshProductList();
             
             if (productToDelete == SelectedProduct)
             {
                 SelectedProduct = null;
             }
+        }
+
+        public void AddToCart(Product? product = null)
+        {
+            var productToAdd = product ?? SelectedProduct;
+            if (productToAdd == null) return;
+
+            _commerceService.AddToCart(productToAdd.ID);
+            RefreshProductList();
             
-            NotifyPropertyChanged(nameof(Products));
+            if (productToAdd == SelectedProduct)
+            {
+                SelectedProduct = null;
+            }
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -57,6 +71,7 @@ namespace Maui.eCommerce.ViewModels
 
         public void RefreshProductList()
         {
+            _products = null;
             NotifyPropertyChanged(nameof(Products));
         }
     }

@@ -2,6 +2,8 @@ using Library.eCommerce.Interfaces;
 using Library.eCommerce.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Library.eCommerce.Services
 {
@@ -15,6 +17,13 @@ namespace Library.eCommerce.Services
         public CartService(IProductService productService)
         {
             _productService = productService;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public bool AddToCart(long productId)
@@ -35,6 +44,7 @@ namespace Library.eCommerce.Services
             }
 
             product.Quantity--;
+            OnPropertyChanged(nameof(CartItems)); // Add this line
             return true;
         }
 
@@ -47,6 +57,7 @@ namespace Library.eCommerce.Services
 
             product.Quantity += cartItem.Quantity;
             CartItems.Remove(cartItem);
+            OnPropertyChanged(nameof(CartItems)); // Add this line
             return true;
         }
 
@@ -78,7 +89,11 @@ namespace Library.eCommerce.Services
                 product.Quantity -= newQuantity - oldQuantity;
                 cartItem.Quantity = newQuantity;
             }
-
+            else
+            {
+                return true; // No change needed
+            }
+            OnPropertyChanged(nameof(CartItems)); 
             return true;
         }
 
