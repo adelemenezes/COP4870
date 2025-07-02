@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace Library.eCommerce.Services
 {
     public class CartService : ICartService
     {
         private readonly IProductService _productService;
-        public List<Product> CartItems { get; } = new();
+        public ObservableCollection<Product> CartItems { get; } = new();
 
         const float DEFAULT_TAX = 7f;
 
@@ -56,8 +57,9 @@ namespace Library.eCommerce.Services
             if (cartItem == null || product == null) return false;
 
             product.Quantity += cartItem.Quantity;
+
             CartItems.Remove(cartItem);
-            OnPropertyChanged(nameof(CartItems)); // Add this line
+            OnPropertyChanged(nameof(CartItems)); 
             return true;
         }
 

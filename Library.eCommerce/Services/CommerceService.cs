@@ -3,6 +3,7 @@ using Library.eCommerce.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Library.eCommerce.Services
 {
@@ -11,7 +12,7 @@ namespace Library.eCommerce.Services
         private readonly IProductService _productService;
         private readonly ICartService _cartService;
 
-        public List<Product> CartItems => _cartService.CartItems;
+        public ObservableCollection<Product> CartItems => _cartService.CartItems;
 
         public CommerceService(IProductService productService, ICartService cartService)
         {

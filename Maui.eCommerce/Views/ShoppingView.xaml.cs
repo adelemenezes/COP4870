@@ -6,20 +6,13 @@ namespace Maui.eCommerce.Views
 {
     public partial class ShoppingView : ContentPage
     {
-		public ShoppingView()
-		{
-			InitializeComponent();
-			var cartService = ProductServiceProxy.CartService;
-			BindingContext = new ShoppingViewModel(cartService);
-		}
-
-        private void OnNavigatedTo(object sender, NavigatedToEventArgs e)
-		{
-			if (BindingContext is ShoppingViewModel vm)
-			{
-				vm.RefreshCart();
-			}
-		}
+        public ShoppingView()
+        {
+            InitializeComponent();
+            var cartService = ProductServiceProxy.CartService;
+            BindingContext = new ShoppingViewModel(cartService);
+        }
+        
 
         private void RemoveFromCartClicked(object sender, EventArgs e)
         {
@@ -36,9 +29,11 @@ namespace Maui.eCommerce.Views
         {
             if (BindingContext is ShoppingViewModel vm)
             {
-                // You would implement checkout logic here
-                DisplayAlert("Checkout", "Checkout functionality would go here", "OK");
+                var receipt = vm.Checkout();
+                DisplayAlert("Receipt", receipt, "OK");
             }
+
+            Shell.Current.GoToAsync("//MainPage");
         }
 
         private void ReturnToManagementMenuClicked(object sender, EventArgs e)

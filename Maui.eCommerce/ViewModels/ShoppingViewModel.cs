@@ -10,9 +10,8 @@ namespace Maui.eCommerce.ViewModels
     {
         private readonly ICartService _cartService;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public ObservableCollection<Product> CartItems { get; } = new ObservableCollection<Product>();
+        // Directly expose the service's collection
+        public ObservableCollection<Product> CartItems => _cartService.CartItems;
 
         private string _totalText = "Total: $0.00";
         public string TotalText
@@ -28,31 +27,17 @@ namespace Maui.eCommerce.ViewModels
         public ShoppingViewModel(ICartService cartService)
         {
             _cartService = cartService;
-            
-            // Initialize cart
-            RefreshCart();
-            
-            // Subscribe to cart changes if supported
+
+            // Listen for cart changes to update total
             if (_cartService is INotifyPropertyChanged notifier)
             {
-                notifier.PropertyChanged += OnCartServicePropertyChanged;
-            }
-        }
-
-        private void OnCartServicePropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ICartService.CartItems))
-            {
-                RefreshCart();
-            }
-        }
-
-        public void RefreshCart()
-        {
-            CartItems.Clear();
-            foreach (var item in _cartService.CartItems)
-            {
-                CartItems.Add(item);
+                notifier.PropertyChanged += (sender, e) =>
+                {
+                    if (e.PropertyName == nameof(ICartService.CartItems))
+                    {
+                        UpdateTotal();
+                    }
+                };
             }
             UpdateTotal();
         }
@@ -65,23 +50,20 @@ namespace Maui.eCommerce.ViewModels
 
         public bool RemoveFromCart(long productId)
         {
-            var result = _cartService.RemoveFromCart(productId);
-            // No need to manually refresh here - the PropertyChanged event will trigger it
-            return result;
+            bool removeSuccess = _cartService.RemoveFromCart(productId);
+            UpdateTotal(); // Force immediate total refresh
+            return removeSuccess;
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        // Clean up event subscription when view model is disposed
-        public void CleanUp()
+        
+        public string Checkout()
         {
-            if (_cartService is INotifyPropertyChanged notifier)
-            {
-                notifier.PropertyChanged -= OnCartServicePropertyChanged;
-            }
+            return _cartService.Checkout();
         }
     }
 }
