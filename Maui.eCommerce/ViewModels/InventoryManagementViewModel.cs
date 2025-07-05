@@ -36,18 +36,26 @@ namespace Maui.eCommerce.ViewModels
             return deletedProduct;
         }
 
-        public void DeleteProduct(Product? product = null)
+        public bool DeleteProduct(Product? product = null)
         {
             var productToDelete = product ?? SelectedProduct;
-            if (productToDelete == null) return;
+            if (productToDelete == null) return false;
 
-            _commerceService.RemoveProduct(productToDelete.ID);
+            // Then remove from cart if present
+            bool removeSuccess = _commerceService.RemoveFromCart(productToDelete.ID);
+
+            // Remove from inventory first
+            bool inventoryRemoved = _commerceService.RemoveProduct(productToDelete.ID);
+
+            
             RefreshProductList();
             
             if (productToDelete == SelectedProduct)
             {
                 SelectedProduct = null;
             }
+
+            return inventoryRemoved;
         }
 
         public void AddToCart(Product? product = null)
