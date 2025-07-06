@@ -14,6 +14,7 @@ namespace Library.eCommerce.Services
         public ObservableCollection<Product> CartItems { get; } = new();
 
         const float DEFAULT_TAX = 7f;
+        public float TaxRate => DEFAULT_TAX;
 
         public CartService(IProductService productService)
         {

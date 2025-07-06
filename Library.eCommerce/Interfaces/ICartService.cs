@@ -7,6 +7,7 @@ namespace Library.eCommerce.Interfaces
     public interface ICartService
     {
         ObservableCollection<Product> CartItems { get; }
+        float TaxRate { get; }
         bool AddToCart(long productId);
         bool RemoveFromCart(long productId);
         bool UpdateCartItemQuantity(long productId, int newQuantity);

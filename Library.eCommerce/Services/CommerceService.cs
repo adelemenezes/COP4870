@@ -11,6 +11,7 @@ namespace Library.eCommerce.Services
     {
         private readonly IProductService _productService;
         private readonly ICartService _cartService;
+        public float TaxRate => _cartService.TaxRate;
 
         public ObservableCollection<Product> CartItems => _cartService.CartItems;
 
