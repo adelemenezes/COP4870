@@ -5,7 +5,7 @@ namespace Maui.eCommerce.Views
 {
     public partial class AddProductView : ContentPage
     {
-        public AddProductView()
+       public AddProductView()
         {
             InitializeComponent();
             var commerceService = new CommerceService(
@@ -13,6 +13,15 @@ namespace Maui.eCommerce.Views
                 new CartService(ProductServiceProxy.Current));
             
             BindingContext = new ProductFormViewModel(commerceService);
+        }   
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (BindingContext is ProductFormViewModel vm)
+            {
+                vm.ResetForm(); // Explicitly set to create mode
+            }
         }
 
         private void OnCancelClicked(object sender, EventArgs e)
@@ -22,12 +31,6 @@ namespace Maui.eCommerce.Views
         {
             if (BindingContext is ProductFormViewModel vm && vm.SaveProduct())
                 Shell.Current.GoToAsync("//InventoryManagement");
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            (BindingContext as ProductFormViewModel)?.ResetForm();
         }
     }
 }

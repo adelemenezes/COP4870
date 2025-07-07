@@ -21,6 +21,13 @@ namespace Maui.eCommerce.ViewModels
             _commerceService = commerceService;
         }
 
+        private bool _isEditMode;
+        public bool IsEditMode
+        {
+            get => _isEditMode;
+            private set => SetField(ref _isEditMode, value);
+        }
+
         public string Name
         {
             get => _name;
@@ -47,6 +54,7 @@ namespace Maui.eCommerce.ViewModels
 
         public void LoadProduct(long productId)
         {
+            IsEditMode = true;
             _editingProduct = _commerceService.GetProduct(productId);
             if (_editingProduct != null)
             {
@@ -59,6 +67,7 @@ namespace Maui.eCommerce.ViewModels
 
         public void ResetForm()
         {
+            IsEditMode = false;
             _editingProduct = null;
             Name = string.Empty;
             Quantity = string.Empty;
@@ -70,7 +79,7 @@ namespace Maui.eCommerce.ViewModels
         {
             if (!ValidateInputs()) return false;
 
-            if (_editingProduct != null)
+            if (IsEditMode && _editingProduct != null)
             {
                 // Update existing product
                 return _commerceService.UpdateItem(_editingProduct.ID, product =>

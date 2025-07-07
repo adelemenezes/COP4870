@@ -6,7 +6,18 @@ namespace Maui.eCommerce.Views
     [QueryProperty(nameof(ProductId), "productId")]
     public partial class EditProductView : ContentPage
     {
-        public long ProductId { get; set; }
+        private long _productId;
+        private ProductFormViewModel _viewModel;
+
+        public long ProductId
+        {
+            get => _productId;
+            set
+            {
+                _productId = value;
+                LoadProductIfReady();
+            }
+        }
 
         public EditProductView()
         {
@@ -14,15 +25,18 @@ namespace Maui.eCommerce.Views
             var commerceService = new CommerceService(
                 ProductServiceProxy.Current,
                 new CartService(ProductServiceProxy.Current));
-            
-            BindingContext = new ProductFormViewModel(commerceService);
+
+            _viewModel = new ProductFormViewModel(commerceService);
+            BindingContext = _viewModel;
+            LoadProductIfReady();
         }
 
-        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        private void LoadProductIfReady()
         {
-            base.OnNavigatedTo(args);
-            if (BindingContext is ProductFormViewModel vm && ProductId > 0)
-                vm.LoadProduct(ProductId);
+            if (_productId > 0 && _viewModel != null)
+            {
+                _viewModel.LoadProduct(_productId);
+            }
         }
 
         private void OnCancelClicked(object sender, EventArgs e)
@@ -30,7 +44,7 @@ namespace Maui.eCommerce.Views
 
         private void OnSaveClicked(object sender, EventArgs e)
         {
-            if (BindingContext is ProductFormViewModel vm && vm.SaveProduct())
+            if (_viewModel.SaveProduct())
                 Shell.Current.GoToAsync("//InventoryManagement");
         }
     }
