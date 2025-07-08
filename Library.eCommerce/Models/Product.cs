@@ -7,7 +7,7 @@ namespace Library.eCommerce.Models
 {
     public class Product : INotifyPropertyChanged
     {
-        private string _name = "NULL"; // Initialize with default
+        private string _name = "NULL"; // default
         private int _quantity;
         private double _price;
         public long ID { get; set; }

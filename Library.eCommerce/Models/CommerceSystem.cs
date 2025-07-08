@@ -16,7 +16,7 @@ namespace Library.eCommerce.Models
         const int DEFAULT_QUANTITY = 0;
         const double DEFAULT_PRICE = 0.00;
         const int DEFAULT_RATING = 0;
-        const float DEFAULT_TAX = 7f;
+        public float TaxRate { get; set; } = 7.0f; // Default 7%
 
         public CommerceSystem()
         {
@@ -278,8 +278,8 @@ namespace Library.eCommerce.Models
             Console.WriteLine("\n******************************");
             Console.WriteLine($"\nNumber of items: {numberOfItems}");
             Console.WriteLine($"Total Without tax: ${total:F2}");
-            double tax = total * DEFAULT_TAX / 100;
-            Console.WriteLine($"Tax ({DEFAULT_TAX:F1}%): ${tax:F2}");
+            double tax = total * TaxRate / 100;
+            Console.WriteLine($"Tax ({TaxRate:F1}%): ${tax:F2}");
             Console.WriteLine($"Total with tax: ${(total + tax):F2}");
 
             Console.WriteLine("\nThank you for your order!");
