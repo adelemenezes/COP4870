@@ -109,36 +109,58 @@ namespace Library.eCommerce.Services
             return true;
         }
 
-        public string Checkout()
+        public (double subtotal, double tax, double total) CalculateTotals()
         {
-            if (!CartItems.Any()) return "Cart is empty.";
-
-            var output = new System.Text.StringBuilder();
-            output.AppendLine("********** CHECKOUT **********");
-            
-            double total = 0;
-            int numberOfItems = 0;
-
-            foreach (var p in CartItems)
-            {
-                output.AppendLine($"{p.Name}");
-                output.AppendLine($"\t${p.Price:F2}");
-                output.AppendLine($"\tQuantity: {p.Quantity}");
-                total += p.Price * p.Quantity;
-                numberOfItems += p.Quantity;
-            }
-
-            output.AppendLine("\n******************************");
-            output.AppendLine($"\nNumber of items: {numberOfItems}");
-            output.AppendLine($"Total Without tax: ${total:F2}");
-            
-            double tax = total * TaxRate / 100;
-            output.AppendLine($"Tax ({TaxRate:F1}%): ${tax:F2}");
-            output.AppendLine($"Total with tax: ${(total + tax):F2}");
-            output.AppendLine("\nThank you for your order!");
-
-            CartItems.Clear();
-            return output.ToString();
+            double subtotal = Math.Round(CartItems.Sum(item => item.Price * item.Quantity), 2);
+            double tax = subtotal * Math.Round(TaxRate,1) / 100;
+            double total = Math.Round(subtotal + tax, 2);
+            return (subtotal, tax, total);
         }
+
+        public string GetTotalText()
+        {
+            var (subtotal, _, _) = CalculateTotals();
+            return $"Subtotal: ${subtotal:F2}";
+        }
+
+        public string GetTaxText()
+        {
+            var (subtotal, tax, _) = CalculateTotals();
+            return $"Tax ({TaxRate:F1}%): ${tax:F2}";
+        }
+
+        public string GetTotalWithTaxText()
+        {
+            var (_, _, total) = CalculateTotals();
+            return $"Total: ${total:F2}";
+        }
+
+        public string Checkout()
+{
+    if (!CartItems.Any()) return "Cart is empty.";
+
+    var (subtotal, tax, total) = CalculateTotals();
+    int numberOfItems = CartItems.Sum(p => p.Quantity);
+
+    var output = new System.Text.StringBuilder();
+    output.AppendLine("********** CHECKOUT **********");
+    
+    foreach (var p in CartItems)
+    {
+        output.AppendLine($"{p.Name}");
+        output.AppendLine($"\t${p.Price:F2}");
+        output.AppendLine($"\tQuantity: {p.Quantity}");
+    }
+
+    output.AppendLine("\n******************************");
+    output.AppendLine($"\nNumber of items: {numberOfItems}");
+    output.AppendLine($"Total Without tax: ${subtotal:F2}");
+    output.AppendLine($"Tax ({TaxRate:F1}%): ${tax:F2}");
+    output.AppendLine($"Total with tax: ${total:F2}");
+    output.AppendLine("\nThank you for your order!");
+
+    CartItems.Clear();
+    return output.ToString();
+}
     }
 }

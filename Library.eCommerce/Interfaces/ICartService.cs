@@ -11,6 +11,9 @@ namespace Library.eCommerce.Interfaces
         bool AddToCart(long productId);
         bool RemoveFromCart(long productId);
         bool UpdateCartItemQuantity(long productId, int newQuantity);
+        string GetTotalText();
+        string GetTaxText();
+        string GetTotalWithTaxText();
         string Checkout();
     }
 }

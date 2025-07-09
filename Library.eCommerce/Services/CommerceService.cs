@@ -26,6 +26,9 @@ namespace Library.eCommerce.Services
         }
 
         // Transition implementations
+        public string GetTotalText() => _cartService.GetTotalText();
+        public string GetTaxText() => _cartService.GetTaxText();
+        public string GetTotalWithTaxText() => _cartService.GetTotalWithTaxText();
         public string ReadInventory() => FormatProductList(GetAllProducts());
         public string ReadCart() => FormatProductList(CartItems);
         

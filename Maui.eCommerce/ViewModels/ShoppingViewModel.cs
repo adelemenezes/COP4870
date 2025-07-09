@@ -73,21 +73,11 @@ namespace Maui.eCommerce.ViewModels
 
         private void UpdateTotal()
         {
-            // Calculate subtotal with rounding
-            double subtotal = Math.Round(CartItems.Sum(item => item.Price * item.Quantity), 2);
-            
-            // Get tax rate and calculate tax with rounding
-            double taxRate = Math.Round(_cartService.TaxRate, 1);
-            double tax = subtotal * taxRate / 100;
-            
-            // Calculate total with rounding
-            double total = Math.Round(subtotal + tax, 2);
-
-            // Update display properties
-            TotalText = $"Subtotal: ${subtotal:F2}";
-            TaxText = $"Tax ({taxRate:F1}%): ${tax:F2}";
-            TotalWithTaxText = $"Total: ${total:F2}";
+            TotalText = _cartService.GetTotalText();
+            TaxText = _cartService.GetTaxText();
+            TotalWithTaxText = _cartService.GetTotalWithTaxText();
         }
+
 
         public bool RemoveFromCart(long productId)
         {

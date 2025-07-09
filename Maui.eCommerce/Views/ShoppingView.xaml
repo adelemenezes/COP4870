@@ -31,22 +31,23 @@
             </ListView.ItemTemplate>
         </ListView>
         
-        <Label Text="{Binding TotalText}"
-           FontSize="Medium"
-           FontAttributes="Bold"
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
-           
-        <Label Text="{Binding TaxText}"
-            FontSize="Medium"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-            
-        <Label Text="{Binding TotalWithTaxText}"
-            FontSize="Medium"
-            FontAttributes="Bold"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <!-- Update text bindings -->
+    <Label Text="{Binding TotalText}"
+        FontSize="Medium"
+        FontAttributes="Bold"
+        VerticalOptions="Center" 
+        HorizontalOptions="Center" />
+        
+    <Label Text="{Binding TaxText}"
+        FontSize="Medium"
+        VerticalOptions="Center" 
+        HorizontalOptions="Center" />
+        
+    <Label Text="{Binding TotalWithTaxText}"
+        FontSize="Medium"
+        FontAttributes="Bold"
+        VerticalOptions="Center" 
+        HorizontalOptions="Center" />
                
         <Button
             Text="Checkout" 
