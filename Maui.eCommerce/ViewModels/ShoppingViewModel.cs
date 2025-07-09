@@ -30,7 +30,12 @@ namespace Maui.eCommerce.ViewModels
             _cartService = cartService;
             _cartService.CartItems.CollectionChanged += CartItems_CollectionChanged;
             
-            // Subscribe to existing items
+            ((INotifyPropertyChanged)_cartService).PropertyChanged += (s, e) => 
+            {
+                if (e.PropertyName == nameof(ICartService.TaxRate))
+                    UpdateTotal();
+            };
+            
             foreach (var item in _cartService.CartItems)
             {
                 item.PropertyChanged += CartItem_PropertyChanged;
@@ -68,13 +73,19 @@ namespace Maui.eCommerce.ViewModels
 
         private void UpdateTotal()
         {
-            var subtotal = CartItems.Sum(item => item.Price * item.Quantity);
-            var taxRate = _cartService.TaxRate;
-            var tax = subtotal * taxRate / 100;
-            var total = subtotal + tax;
+            // Calculate subtotal with rounding
+            double subtotal = Math.Round(CartItems.Sum(item => item.Price * item.Quantity), 2);
+            
+            // Get tax rate and calculate tax with rounding
+            double taxRate = Math.Round(_cartService.TaxRate, 1);
+            double tax = subtotal * taxRate / 100;
+            
+            // Calculate total with rounding
+            double total = Math.Round(subtotal + tax, 2);
 
+            // Update display properties
             TotalText = $"Subtotal: ${subtotal:F2}";
-            TaxText = $"Tax ({taxRate}%): ${tax:F2}";
+            TaxText = $"Tax ({taxRate:F1}%): ${tax:F2}";
             TotalWithTaxText = $"Total: ${total:F2}";
         }
 

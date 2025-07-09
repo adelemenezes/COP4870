@@ -13,6 +13,9 @@
             <Button
                 Text="Shopping"
                     Clicked="ShoppingClicked" />
+            <Button
+                Text="Settings"
+                    Clicked="SettingsClicked" />
         </VerticalStackLayout>
         
     </ScrollView>

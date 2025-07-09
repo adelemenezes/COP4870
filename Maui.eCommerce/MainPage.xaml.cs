@@ -7,16 +7,16 @@ public partial class MainPage : ContentPage
 // C++ doesn't need this becaue it has scope resolution
 // MainPage is based off of content page, which is a class in the Maui framework
 {
-	
+
 	public MainPage()
 	{
 		InitializeComponent(); // binding context
 		BindingContext = new MainViewModel(); // of type object
-		// used to bind data to front end view
-		// this is not MVVM
+											  // used to bind data to front end view
+											  // this is not MVVM
 	}
 
-	
+
 
 	public void InventoryManagementClicked(object sender, EventArgs e)
 	{
@@ -28,5 +28,9 @@ public partial class MainPage : ContentPage
 		Shell.Current.GoToAsync("//Shopping"); // // means next directory down
 	}
 
+	public void SettingsClicked(object sender, EventArgs e)
+	{
+		Shell.Current.GoToAsync("//Settings"); // go to the settings page
+	}
 }
 

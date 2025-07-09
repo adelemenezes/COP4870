@@ -8,13 +8,22 @@ using System.Collections.ObjectModel;
 
 namespace Library.eCommerce.Services
 {
-    public class CartService : ICartService
+    public class CartService : ICartService, INotifyPropertyChanged
     {
         private readonly IProductService _productService;
         public ObservableCollection<Product> CartItems { get; } = new();
 
-        const float DEFAULT_TAX = 7f;
-        public float TaxRate => DEFAULT_TAX;
+        private float _taxRate = 7.0f;
+        public float TaxRate
+        {
+            get => _taxRate;
+            set
+            {
+                if (Math.Abs(_taxRate - value) < 0.1f) return;
+                _taxRate = value;
+                OnPropertyChanged();
+            }
+        }
 
         public CartService(IProductService productService)
         {
@@ -123,8 +132,8 @@ namespace Library.eCommerce.Services
             output.AppendLine($"\nNumber of items: {numberOfItems}");
             output.AppendLine($"Total Without tax: ${total:F2}");
             
-            double tax = total * DEFAULT_TAX / 100;
-            output.AppendLine($"Tax ({DEFAULT_TAX:F1}%): ${tax:F2}");
+            double tax = total * TaxRate / 100;
+            output.AppendLine($"Tax ({TaxRate:F1}%): ${tax:F2}");
             output.AppendLine($"Total with tax: ${(total + tax):F2}");
             output.AppendLine("\nThank you for your order!");
 
