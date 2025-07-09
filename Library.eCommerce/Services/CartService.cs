@@ -1,5 +1,6 @@
 using Library.eCommerce.Interfaces;
 using Library.eCommerce.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ namespace Library.eCommerce.Services
     public class CartService : ICartService, INotifyPropertyChanged
     {
         private readonly IProductService _productService;
+
         public ObservableCollection<Product> CartItems { get; } = new();
 
         private float _taxRate = 7.0f;
@@ -31,7 +33,7 @@ namespace Library.eCommerce.Services
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        
+
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -43,7 +45,7 @@ namespace Library.eCommerce.Services
             if (product == null || product.Quantity < 1) return false;
 
             var cartItem = CartItems.FirstOrDefault(p => p.ID == productId);
-            
+
             if (cartItem != null)
             {
                 cartItem.Quantity++;
@@ -55,7 +57,7 @@ namespace Library.eCommerce.Services
             }
 
             product.Quantity--;
-            OnPropertyChanged(nameof(CartItems)); // Add this line
+            OnPropertyChanged(nameof(CartItems));
             return true;
         }
 
@@ -67,9 +69,9 @@ namespace Library.eCommerce.Services
             if (cartItem == null || product == null) return false;
 
             product.Quantity += cartItem.Quantity;
-
             CartItems.Remove(cartItem);
-            OnPropertyChanged(nameof(CartItems)); 
+            OnPropertyChanged(nameof(CartItems));
+
             return true;
         }
 
@@ -98,22 +100,25 @@ namespace Library.eCommerce.Services
                 {
                     return false;
                 }
+
                 product.Quantity -= newQuantity - oldQuantity;
                 cartItem.Quantity = newQuantity;
             }
             else
             {
-                return true; // No change needed
+                return true;
             }
-            OnPropertyChanged(nameof(CartItems)); 
+
+            OnPropertyChanged(nameof(CartItems));
             return true;
         }
 
         public (double subtotal, double tax, double total) CalculateTotals()
         {
             double subtotal = Math.Round(CartItems.Sum(item => item.Price * item.Quantity), 2);
-            double tax = subtotal * Math.Round(TaxRate,1) / 100;
+            double tax = subtotal * Math.Round(TaxRate, 1) / 100;
             double total = Math.Round(subtotal + tax, 2);
+
             return (subtotal, tax, total);
         }
 
@@ -125,7 +130,7 @@ namespace Library.eCommerce.Services
 
         public string GetTaxText()
         {
-            var (subtotal, tax, _) = CalculateTotals();
+            var (_, tax, _) = CalculateTotals();
             return $"Tax ({TaxRate:F1}%): ${tax:F2}";
         }
 
@@ -136,31 +141,32 @@ namespace Library.eCommerce.Services
         }
 
         public string Checkout()
-{
-    if (!CartItems.Any()) return "Cart is empty.";
+        {
+            if (!CartItems.Any()) return "Cart is empty.";
 
-    var (subtotal, tax, total) = CalculateTotals();
-    int numberOfItems = CartItems.Sum(p => p.Quantity);
+            var (subtotal, tax, total) = CalculateTotals();
+            int numberOfItems = CartItems.Sum(p => p.Quantity);
 
-    var output = new System.Text.StringBuilder();
-    output.AppendLine("********** CHECKOUT **********");
-    
-    foreach (var p in CartItems)
-    {
-        output.AppendLine($"{p.Name}");
-        output.AppendLine($"\t${p.Price:F2}");
-        output.AppendLine($"\tQuantity: {p.Quantity}");
-    }
+            var output = new System.Text.StringBuilder();
 
-    output.AppendLine("\n******************************");
-    output.AppendLine($"\nNumber of items: {numberOfItems}");
-    output.AppendLine($"Total Without tax: ${subtotal:F2}");
-    output.AppendLine($"Tax ({TaxRate:F1}%): ${tax:F2}");
-    output.AppendLine($"Total with tax: ${total:F2}");
-    output.AppendLine("\nThank you for your order!");
+            output.AppendLine("********** CHECKOUT **********");
 
-    CartItems.Clear();
-    return output.ToString();
-}
+            foreach (var p in CartItems)
+            {
+                output.AppendLine($"{p.Name}");
+                output.AppendLine($"\t${p.Price:F2}");
+                output.AppendLine($"\tQuantity: {p.Quantity}");
+            }
+
+            output.AppendLine("\n******************************");
+            output.AppendLine($"\nNumber of items: {numberOfItems}");
+            output.AppendLine($"Total Without tax: ${subtotal:F2}");
+            output.AppendLine($"Tax ({TaxRate:F1}%): ${tax:F2}");
+            output.AppendLine($"Total with tax: ${total:F2}");
+            output.AppendLine("\nThank you for your order!");
+
+            CartItems.Clear();
+            return output.ToString();
+        }
     }
 }

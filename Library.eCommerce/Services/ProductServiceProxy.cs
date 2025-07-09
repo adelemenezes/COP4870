@@ -10,10 +10,12 @@ namespace Library.eCommerce.Services
     {
         private static ProductServiceProxy? _instance;
         private static readonly object _instanceLock = new();
+
         private static CartService? _cartService;
         private static readonly object _cartServiceLock = new();
-        
+
         public List<Product> Products { get; private set; }
+
         private long _highestIdUsed = 0;
 
         private ProductServiceProxy()

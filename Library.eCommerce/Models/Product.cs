@@ -2,19 +2,19 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-
 namespace Library.eCommerce.Models
 {
     public class Product : INotifyPropertyChanged
     {
-        private string _name = "NULL"; // default
+        private string _name = "NULL";
         private int _quantity;
         private double _price;
-        public long ID { get; set; }
         private int _rating;
-        
+
+        public long ID { get; set; }
+
         public event PropertyChangedEventHandler? PropertyChanged;
-        
+
         public string Name
         {
             get => _name;
@@ -25,6 +25,7 @@ namespace Library.eCommerce.Models
                 OnPropertyChanged();
             }
         }
+
         public int Quantity
         {
             get => _quantity;
@@ -88,7 +89,7 @@ namespace Library.eCommerce.Models
             Price = p.Price;
             Rating = p.Rating;
             ID = p.ID;
-            
+
             p.PropertyChanged += (sender, args) =>
             {
                 if (args.PropertyName == nameof(Name)) Name = p.Name;
@@ -100,29 +101,23 @@ namespace Library.eCommerce.Models
         public static bool TryCreate(string name, string quantityStr, string priceStr, string ratingStr, long id, out Product product)
         {
             product = default!;
-            
+
             if (!int.TryParse(quantityStr, out int quantity)) return false;
             if (!double.TryParse(priceStr, out double price)) return false;
             if (!int.TryParse(ratingStr, out int rating)) return false;
-            
+
             product = new Product(name, quantity, price, rating, id);
             return true;
         }
 
-        /*public override string ToString()
+        public string? Display
         {
-            return $"ID: {ID}\n\tName: {Name}\n\tQuantity: {Quantity}\n\tPrice: ${Price:F2}\n\tRating: {Rating}";
-        }*/
-        public string? Display{
-            get
-            {
-                return $"ID: {ID}\tName: {Name}\tQuantity: {Quantity}\tPrice: ${Price:F2}\tRating: {Rating}";
-            }
-
+            get => $"ID: {ID}\tName: {Name}\tQuantity: {Quantity}\tPrice: ${Price:F2}\tRating: {Rating}";
         }
+
         public override string ToString()
         {
-            return Display ?? string.Empty; 
+            return Display ?? string.Empty;
         }
     }
 }
