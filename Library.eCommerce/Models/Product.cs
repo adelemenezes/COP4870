@@ -12,6 +12,7 @@ namespace Library.eCommerce.Models
         private int _rating;
 
         public long ID { get; set; }
+        public double TotalPrice => Price * Quantity; // to be displayed in shopping cart;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -34,6 +35,7 @@ namespace Library.eCommerce.Models
                 if (_quantity == value) return;
                 _quantity = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(TotalPrice));
             }
         }
 
@@ -45,6 +47,7 @@ namespace Library.eCommerce.Models
                 if (Math.Abs(_price - value) < 0.001) return;
                 _price = Math.Round(value, 2);
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(TotalPrice));
             }
         }
 

@@ -30,6 +30,20 @@ namespace Maui.eCommerce.ViewModels
             
             UpdateTotal();
         }
+        
+        public bool UpdateCartItemQuantity(long productId, int newQuantity)
+        {
+            bool success = _cartService.UpdateCartItemQuantity(productId, newQuantity);
+            UpdateTotal();
+            return success;
+        }
+
+        public bool RemoveFromCart(long productId)
+        {
+            bool success = _cartService.RemoveFromCart(productId);
+            UpdateTotal();
+            return success;
+        }
 
         private void CartItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -40,7 +54,7 @@ namespace Maui.eCommerce.ViewModels
                     item.PropertyChanged -= CartItem_PropertyChanged;
                 }
             }
-            
+
             if (e.NewItems != null)
             {
                 foreach (Product item in e.NewItems)
@@ -48,7 +62,7 @@ namespace Maui.eCommerce.ViewModels
                     item.PropertyChanged += CartItem_PropertyChanged;
                 }
             }
-            
+
             UpdateTotal();
         }
         private void UpdateTotal()
@@ -56,12 +70,6 @@ namespace Maui.eCommerce.ViewModels
             TotalText = _cartService.GetTotalText();
             TaxText = _cartService.GetTaxText();
             TotalWithTaxText = _cartService.GetTotalWithTaxText();
-        }
-        public bool RemoveFromCart(long productId)
-        {
-            bool removeSuccess = _cartService.RemoveFromCart(productId);
-            UpdateTotal(); // Force immediate total refresh
-            return removeSuccess;
         }
 
         private string _totalText = "Total: $0.00";

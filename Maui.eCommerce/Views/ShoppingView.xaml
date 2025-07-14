@@ -3,62 +3,90 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.eCommerce.Views.ShoppingView"
              Title="Shopping Cart">
-    <VerticalStackLayout>
+
+    <VerticalStackLayout Padding="10" Spacing="15">
+        
         <Label 
             Text="Your Shopping Cart"
             FontSize="Large"
-            VerticalOptions="Center" 
+            FontAttributes="Bold"
             HorizontalOptions="Center" />
-            
-        <ListView ItemsSource="{Binding CartItems}">
+
+        <ListView ItemsSource="{Binding CartItems}" HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid>
+                        <Grid Padding="5" ColumnSpacing="10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="10*"/>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="6*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="{Binding Name}"/>
-                            <Label Grid.Column="1" Text="{Binding Price, StringFormat='${0:F2}'}"/>
-                            <Button Grid.Column="2" Text="Remove"
-                                    Clicked="RemoveFromCartClicked"
-                                    CommandParameter="{Binding ID}"/>
+
+                            <!-- Product Name -->
+                            <Label Grid.Column="0" Text="{Binding Name}" VerticalOptions="Center" />
+
+                            <!-- Quantity Controls -->
+                            <Grid Grid.Column="1" ColumnSpacing="5" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0" Text="-" 
+                                        CommandParameter="{Binding ID}"
+                                        Clicked="OnDecreaseQuantityClicked" />
+
+                                <Label Grid.Column="1" Text="{Binding Quantity}" 
+                                       HorizontalOptions="Center" VerticalOptions="Center" />
+
+                                <Button Grid.Column="2" Text="+" 
+                                        CommandParameter="{Binding ID}"
+                                        Clicked="OnIncreaseQuantityClicked" />
+                            </Grid>
+
+                            <!-- Price -->
+                            <Label Grid.Column="2" 
+                                   Text="{Binding TotalPrice, StringFormat='${0:F2}'}" 
+                                   HorizontalOptions="End" 
+                                   VerticalOptions="Center" />
+
+                            <!-- Remove Button -->
+                            <Button Grid.Column="3" Text="Remove All"
+                                    CommandParameter="{Binding ID}"
+                                    Clicked="OnRemoveAllClicked"
+                                    HorizontalOptions="End" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <!-- Totals -->
+        <Label Text="{Binding TotalText}"
+               FontSize="Medium"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <Label Text="{Binding TaxText}"
+               FontSize="Medium"
+               HorizontalOptions="Center" />
+
+        <Label Text="{Binding TotalWithTaxText}"
+               FontSize="Medium"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <!-- Action Buttons -->
+        <Button Text="Checkout"
+                HorizontalOptions="Center"
+                Clicked="CheckoutClicked" />
+
+        <Button Text="Return to Management Menu"
+                HorizontalOptions="Center"
+                Clicked="ReturnToManagementMenuClicked" />
         
-        <!-- Update text bindings -->
-    <Label Text="{Binding TotalText}"
-        FontSize="Medium"
-        FontAttributes="Bold"
-        VerticalOptions="Center" 
-        HorizontalOptions="Center" />
-        
-    <Label Text="{Binding TaxText}"
-        FontSize="Medium"
-        VerticalOptions="Center" 
-        HorizontalOptions="Center" />
-        
-    <Label Text="{Binding TotalWithTaxText}"
-        FontSize="Medium"
-        FontAttributes="Bold"
-        VerticalOptions="Center" 
-        HorizontalOptions="Center" />
-               
-        <Button
-            Text="Checkout" 
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" 
-            Clicked="CheckoutClicked" />
-            
-        <Button
-            Text="Return to Management Menu" 
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" 
-            Clicked="ReturnToManagementMenuClicked" />
     </VerticalStackLayout>
 </ContentPage>
