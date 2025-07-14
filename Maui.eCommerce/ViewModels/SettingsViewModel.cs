@@ -1,4 +1,3 @@
-// Simplified SettingsViewModel
 using System.ComponentModel;
 using Library.eCommerce.Interfaces;
 

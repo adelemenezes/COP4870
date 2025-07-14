@@ -7,10 +7,10 @@ namespace Maui.eCommerce.ViewModels
 {
     public class ProductFormViewModel : INotifyPropertyChanged
     {
+        // Services
         private readonly ICommerceService _commerceService;
         private Product? _editingProduct;
-
-        // Form properties
+        // Properties
         private string _name = string.Empty;
         private string _quantity = string.Empty;
         private string _price = string.Empty;
@@ -92,7 +92,6 @@ namespace Maui.eCommerce.ViewModels
             }
             else
             {
-                // Create new product
                 return _commerceService.CreateItem(
                     Name,
                     int.Parse(Quantity),
@@ -108,8 +107,6 @@ namespace Maui.eCommerce.ViewModels
                 && double.TryParse(Price, out double price) && price >= 0
                 && int.TryParse(Rating, out int rating) && rating is >= 1 and <= 5;
         }
-
-        // INotifyPropertyChanged implementation
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

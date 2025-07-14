@@ -10,20 +10,7 @@ namespace Maui.eCommerce.ViewModels
     public class ShoppingViewModel : INotifyPropertyChanged
     {
         private readonly ICartService _cartService;
-
-        // Directly expose the service's collection
         public ObservableCollection<Product> CartItems => _cartService.CartItems;
-
-        private string _totalText = "Total: $0.00";
-        public string TotalText
-        {
-            get => _totalText;
-            set
-            {
-                _totalText = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         public ShoppingViewModel(ICartService cartService)
         {
@@ -64,26 +51,28 @@ namespace Maui.eCommerce.ViewModels
             
             UpdateTotal();
         }
-
-        private void CartItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            UpdateTotal();
-        }
-
-
         private void UpdateTotal()
         {
             TotalText = _cartService.GetTotalText();
             TaxText = _cartService.GetTaxText();
             TotalWithTaxText = _cartService.GetTotalWithTaxText();
         }
-
-
         public bool RemoveFromCart(long productId)
         {
             bool removeSuccess = _cartService.RemoveFromCart(productId);
             UpdateTotal(); // Force immediate total refresh
             return removeSuccess;
+        }
+
+        private string _totalText = "Total: $0.00";
+        public string TotalText
+        {
+            get => _totalText;
+            set
+            {
+                _totalText = value;
+                NotifyPropertyChanged();
+            }
         }
 
         private string _taxText = "Tax (7%): $0.00";
@@ -99,8 +88,15 @@ namespace Maui.eCommerce.ViewModels
             get => _totalWithTaxText;
             set => SetField(ref _totalWithTaxText, value);
         }
-
+        public string Checkout()
+        {
+            return _cartService.Checkout();
+        }
         // Helper method for property changes
+        private void CartItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            UpdateTotal();
+        }
         private bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;
@@ -112,11 +108,6 @@ namespace Maui.eCommerce.ViewModels
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        
-        public string Checkout()
-        {
-            return _cartService.Checkout();
         }
     }
 }

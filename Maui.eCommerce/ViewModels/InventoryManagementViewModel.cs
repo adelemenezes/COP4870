@@ -11,18 +11,16 @@ namespace Maui.eCommerce.ViewModels
     {
         private readonly ICommerceService _commerceService;
         private ObservableCollection<Product>? _products;
-
         public event PropertyChangedEventHandler? PropertyChanged;
+        public Product? SelectedProduct { get; set; }
 
         public InventoryManagementViewModel(ICommerceService commerceService)
         {
             _commerceService = commerceService;
         }
 
-        public ObservableCollection<Product> Products => 
+        public ObservableCollection<Product> Products =>
             _products ??= new ObservableCollection<Product>(_commerceService.GetAllProducts());
-
-        public Product? SelectedProduct { get; set; }
 
         public Product? Delete()
         {
@@ -40,16 +38,11 @@ namespace Maui.eCommerce.ViewModels
         {
             var productToDelete = product ?? SelectedProduct;
             if (productToDelete == null) return false;
-
-            // Then remove from cart if present
             bool removeSuccess = _commerceService.RemoveFromCart(productToDelete.ID);
-
-            // Remove from inventory first
             bool inventoryRemoved = _commerceService.RemoveProduct(productToDelete.ID);
 
-            
             RefreshProductList();
-            
+
             if (productToDelete == SelectedProduct)
             {
                 SelectedProduct = null;
@@ -65,7 +58,7 @@ namespace Maui.eCommerce.ViewModels
 
             _commerceService.AddToCart(productToAdd.ID);
             RefreshProductList();
-            
+
             if (productToAdd == SelectedProduct)
             {
                 SelectedProduct = null;
