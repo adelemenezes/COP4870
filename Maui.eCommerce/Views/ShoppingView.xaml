@@ -5,13 +5,45 @@
              Title="Shopping Cart">
 
     <VerticalStackLayout Padding="10" Spacing="15">
-        
-        <Label 
-            Text="Your Shopping Cart"
-            FontSize="Large"
-            FontAttributes="Bold"
-            HorizontalOptions="Center" />
 
+        <Label Text="Your Shopping Cart"
+               FontSize="Large"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <!-- Sorting Bar: Label + Options inline -->
+        <HorizontalStackLayout Spacing="10" Padding="0,0,0,10">
+            <Label Text="Sort by:"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start" />
+
+            <Label Text="ID"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center" />
+            <Label Text="Name"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center" />
+            <Label Text="Price"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <!-- Column Headers -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*" /> <!-- Name -->
+                <ColumnDefinition Width="3*" /> <!-- Quantity -->
+                <ColumnDefinition Width="2*" /> <!-- Price -->
+                <ColumnDefinition Width="3*" /> <!-- Remove -->
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Text="Name" FontAttributes="Bold" HorizontalOptions="Start" />
+            <Label Grid.Column="1" Text="Qty" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Grid.Column="2" Text="Price" FontAttributes="Bold" HorizontalOptions="Center" />
+            <!-- Grid.Column="3" left blank for layout alignment -->
+        </Grid>
+
+        <!-- Product List -->
         <ListView ItemsSource="{Binding CartItems}" HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -24,7 +56,7 @@
                                 <ColumnDefinition Width="3*" />
                             </Grid.ColumnDefinitions>
 
-                            <!-- Product Name -->
+                            <!-- Name -->
                             <Label Grid.Column="0" Text="{Binding Name}" VerticalOptions="Center" />
 
                             <!-- Quantity Controls -->
@@ -35,22 +67,23 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Button Grid.Column="0" Text="-" 
+                                <Button Grid.Column="0" Text="-"
                                         CommandParameter="{Binding ID}"
                                         Clicked="OnDecreaseQuantityClicked" />
 
-                                <Label Grid.Column="1" Text="{Binding Quantity}" 
-                                       HorizontalOptions="Center" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="{Binding Quantity}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
 
-                                <Button Grid.Column="2" Text="+" 
+                                <Button Grid.Column="2" Text="+"
                                         CommandParameter="{Binding ID}"
                                         Clicked="OnIncreaseQuantityClicked" />
                             </Grid>
 
                             <!-- Price -->
-                            <Label Grid.Column="2" 
-                                   Text="{Binding TotalPrice, StringFormat='${0:F2}'}" 
-                                   HorizontalOptions="End" 
+                            <Label Grid.Column="2"
+                                   Text="{Binding TotalPrice, StringFormat='${0:F2}'}"
+                                   HorizontalOptions="Center"
                                    VerticalOptions="Center" />
 
                             <!-- Remove Button -->
@@ -87,6 +120,6 @@
         <Button Text="Return to Management Menu"
                 HorizontalOptions="Center"
                 Clicked="ReturnToManagementMenuClicked" />
-        
+
     </VerticalStackLayout>
 </ContentPage>
