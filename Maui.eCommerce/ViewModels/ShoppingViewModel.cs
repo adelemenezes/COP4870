@@ -1,8 +1,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Collections.Specialized; 
+using System.Collections.Specialized;
 using Library.eCommerce.Interfaces;
+using System.Windows.Input;
 using Library.eCommerce.Models;
 
 namespace Maui.eCommerce.ViewModels
@@ -11,7 +12,15 @@ namespace Maui.eCommerce.ViewModels
     {
         private readonly ICartService _cartService;
         public ObservableCollection<Product> CartItems => _cartService.CartItems;
+        public ICommand SortCommand => new Command<string>(OnSortCommand);
 
+        private void OnSortCommand(string sortOption)
+        {
+            if (Enum.TryParse<SortOption>(sortOption, true, out var option))
+            {
+                SortCartItems(option);
+            }
+        }
         public ShoppingViewModel(ICartService cartService)
         {
             _cartService = cartService;
@@ -43,6 +52,12 @@ namespace Maui.eCommerce.ViewModels
             bool success = _cartService.RemoveFromCart(productId);
             UpdateTotal();
             return success;
+        }
+
+        public void SortCartItems(SortOption sortBy)
+        {
+            _cartService.SortCartItems(sortBy);
+            UpdateTotal();
         }
 
         private void CartItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

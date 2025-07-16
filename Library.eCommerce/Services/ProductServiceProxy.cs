@@ -93,5 +93,18 @@ namespace Library.eCommerce.Services
                 return Products.ToList();
             }
         }
+
+        public IEnumerable<Product> GetSortedProducts(SortOption sortBy)
+        {
+            lock (_instanceLock)
+            {
+                return sortBy switch
+                {
+                    SortOption.Name => Products.OrderBy(p => p.Name).ToList(),
+                    SortOption.Price => Products.OrderBy(p => p.Price).ToList(),
+                    _ => Products.OrderBy(p => p.ID).ToList() // Default is ID
+                };
+            }
+        }
     }
 }

@@ -14,19 +14,27 @@
                
         <!-- Sorting Bar: Label + Options inline -->
         <HorizontalStackLayout Spacing="10" Padding="0,0,0,10">
-            <Label Text="Sort by:"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Start" />
-
-            <Label Text="ID"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
-            <Label Text="Name"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
-            <Label Text="Price"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center" />
+            <Label Text="Sort by:" 
+                VerticalOptions="Center" 
+                HorizontalOptions="Start" />
+            
+            <Button Text="ID" 
+                    FontAttributes="Bold" 
+                    VerticalOptions="Center"
+                    Command="{Binding SortCommand}"
+                    CommandParameter="Id" />
+                    
+            <Button Text="Name" 
+                    FontAttributes="Bold" 
+                    VerticalOptions="Center"
+                    Command="{Binding SortCommand}"
+                    CommandParameter="Name" />
+                    
+            <Button Text="Price" 
+                    FontAttributes="Bold" 
+                    VerticalOptions="Center"
+                    Command="{Binding SortCommand}"
+                    CommandParameter="Price" />
         </HorizontalStackLayout>
 
         <!-- Header Row -->

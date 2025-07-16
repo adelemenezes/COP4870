@@ -113,6 +113,21 @@ namespace Library.eCommerce.Services
             return true;
         }
 
+        public void SortCartItems(SortOption sortBy)
+        {
+            var sorted = sortBy switch
+            {
+                SortOption.Name => CartItems.OrderBy(p => p.Name).ToList(),
+                SortOption.Price => CartItems.OrderBy(p => p.Price).ToList(),
+                _ => CartItems.OrderBy(p => p.ID).ToList() // Default is ID
+            };
+
+            CartItems.Clear();
+            foreach (var item in sorted)
+            {
+                CartItems.Add(item);
+            }
+        }
         public (double subtotal, double tax, double total) CalculateTotals()
         {
             double subtotal = Math.Round(CartItems.Sum(item => item.Price * item.Quantity), 2);

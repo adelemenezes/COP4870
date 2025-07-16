@@ -12,6 +12,7 @@ namespace Library.eCommerce.Interfaces
         bool UpdateItem(long id, Action<Product> updateAction);
         bool UpdateItemAmount(long id, int newQuantity);
         bool RemoveItem(long id);
+        public void SortItems(SortOption sortBy, bool isCart);
 
         string CheckOut();
     }

@@ -82,7 +82,38 @@ namespace Library.eCommerce.Services
 
         public bool UpdateCartItemQuantity(long productId, int newQuantity) =>
             _cartService.UpdateCartItemQuantity(productId, newQuantity);
+        public IEnumerable<Product> GetSortedProducts(SortOption sortBy)
+        {
+            return _productService.GetSortedProducts(sortBy);
+        }
 
+        public void SortCartItems(SortOption sortBy)
+        {
+            _cartService.SortCartItems(sortBy);
+        }
+
+        // Modify the SortItems method to not use Products directly
+        public void SortItems(SortOption sortBy, bool isCart)
+        {
+            if (isCart)
+            {
+                _cartService.SortCartItems(sortBy);
+            }
+            else
+            {
+                // Get sorted products and update the inventory
+                var sortedProducts = _productService.GetSortedProducts(sortBy).ToList();
+                // Remove all products and re-add them in sorted order
+                foreach (var product in _productService.GetAllProducts().ToList())
+                {
+                    _productService.RemoveProduct(product.ID);
+                }
+                foreach (var product in sortedProducts)
+                {
+                    _productService.AddProduct(product);
+                }
+            }
+        }
         public string Checkout() =>
             _cartService.Checkout();
 

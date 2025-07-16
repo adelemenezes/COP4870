@@ -17,6 +17,8 @@ namespace Library.eCommerce.Interfaces
         string GetTotalText();
         string GetTaxText();
         string GetTotalWithTaxText();
+        void SortCartItems(SortOption sortBy);
+
 
         string Checkout();
     }

@@ -10,5 +10,6 @@ namespace Library.eCommerce.Interfaces
         Product AddProduct(Product product);
         bool RemoveProduct(long id);
         long GetNextProductId();
+        IEnumerable<Product> GetSortedProducts(SortOption sortBy);
     }
 }

@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Library.eCommerce.Interfaces;
 using Library.eCommerce.Models;
 using Microsoft.Maui.ApplicationModel;
+using System.Windows.Input;
 
 namespace Maui.eCommerce.ViewModels
 {
@@ -21,7 +22,15 @@ namespace Maui.eCommerce.ViewModels
 
         public ObservableCollection<Product> Products =>
             _products ??= new ObservableCollection<Product>(_commerceService.GetAllProducts());
+        public ICommand SortCommand => new Command<string>(OnSortCommand);
 
+        private void OnSortCommand(string sortOption)
+        {
+            if (Enum.TryParse<SortOption>(sortOption, true, out var option))
+            {
+                SortProducts(option);
+            }
+        }
         public Product? Delete()
         {
             if (SelectedProduct == null) return null;
@@ -74,6 +83,11 @@ namespace Maui.eCommerce.ViewModels
         {
             _products = null;
             NotifyPropertyChanged(nameof(Products));
+        }
+        public void SortProducts(SortOption sortBy)
+        {
+            _commerceService.SortItems(sortBy, false);
+            RefreshProductList();
         }
     }
 }
