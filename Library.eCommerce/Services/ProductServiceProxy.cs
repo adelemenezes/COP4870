@@ -20,13 +20,7 @@ namespace Library.eCommerce.Services
 
         private ProductServiceProxy()
         {
-            Products = new List<Product>
-            {
-                new Product { ID = 1, Name = "Product1", Quantity = 10, Price = 100.0, Rating = 5 },
-                new Product { ID = 2, Name = "Product2" },
-                new Product { ID = 3, Name = "Product3" },
-                new Product { ID = 4, Name = "Product4" }
-            };
+            Products = new List<Product>();
         }
 
         public static ProductServiceProxy Current

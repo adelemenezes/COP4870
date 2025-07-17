@@ -8,19 +8,15 @@
                FontSize="Large"
                HorizontalOptions="Center"/>
                
-        <Border Stroke="LightGray" 
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 5"
-                Padding="15">
-            <VerticalStackLayout Spacing="10">
-                <Label Text="{Binding TaxRate, StringFormat='Current Tax Rate: {0:F1}%'}"
-                       FontSize="Medium"/>
-                       
-                <Slider Minimum="0" Maximum="25" 
-                       Value="{Binding TaxRate, Mode=TwoWay}"
-                       ThumbColor="Blue"/>
-            </VerticalStackLayout>
-        </Border>
+
+    <VerticalStackLayout Spacing="10">
+        <Label Text="{Binding TaxRate, StringFormat='Current Tax Rate: {0:F1}%'}"
+                FontSize="Medium"/>
+                
+        <Slider Minimum="0" Maximum="25" 
+                Value="{Binding TaxRate, Mode=TwoWay}"
+                ThumbColor="White"/>
+    </VerticalStackLayout>
         
     <Button Text="Return to Management Menu" 
                 VerticalOptions="Center" 
