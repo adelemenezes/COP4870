@@ -1,48 +1,70 @@
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Library.eCommerce.Models
 {
-    public class Product
+    public class Product : INotifyPropertyChanged
     {
-        private string _name;
+        private string _name = "NULL";
         private int _quantity;
         private double _price;
         private int _rating;
-        
-        public event Action<double> PriceChanged;
+
+        public long ID { get; set; }
+        public double TotalPrice => Price * Quantity; // to be displayed in shopping cart;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public string Name
         {
             get => _name;
-            set => _name = string.IsNullOrWhiteSpace(value) ? "NULL" : value;
+            set
+            {
+                if (_name == value) return;
+                _name = value;
+                OnPropertyChanged();
+            }
         }
 
         public int Quantity
         {
             get => _quantity;
-            set => _quantity = value >= 0 ? value : 0;
+            set
+            {
+                if (_quantity == value) return;
+                _quantity = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(TotalPrice));
+            }
         }
 
-        public long ID { get; set; }
-        
         public double Price
         {
             get => _price;
             set
             {
-                value = Math.Round(value >= 0 ? value : 0, 2);
-                if (Math.Abs(_price - value) > 0.001)
-                {
-                    _price = value;
-                    PriceChanged?.Invoke(_price);
-                }
+                if (Math.Abs(_price - value) < 0.001) return;
+                _price = Math.Round(value, 2);
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(TotalPrice));
             }
         }
 
         public int Rating
         {
             get => _rating;
-            set => _rating = (value >= 1 && value <= 5) ? value : 1;
+            set
+            {
+                if (_rating == value) return;
+                _rating = value;
+                OnPropertyChanged();
+            }
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public Product(string name, int quantity, double price, int rating, long key)
@@ -70,36 +92,35 @@ namespace Library.eCommerce.Models
             Price = p.Price;
             Rating = p.Rating;
             ID = p.ID;
-            
-            p.PriceChanged += newPrice => Price = newPrice;
+
+            p.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(Name)) Name = p.Name;
+                if (args.PropertyName == nameof(Price)) Price = p.Price;
+                if (args.PropertyName == nameof(Rating)) Rating = p.Rating;
+            };
         }
 
         public static bool TryCreate(string name, string quantityStr, string priceStr, string ratingStr, long id, out Product product)
         {
-            product = null;
-            
+            product = default!;
+
             if (!int.TryParse(quantityStr, out int quantity)) return false;
             if (!double.TryParse(priceStr, out double price)) return false;
             if (!int.TryParse(ratingStr, out int rating)) return false;
-            
+
             product = new Product(name, quantity, price, rating, id);
             return true;
         }
 
-        /*public override string ToString()
+        public string? Display
         {
-            return $"ID: {ID}\n\tName: {Name}\n\tQuantity: {Quantity}\n\tPrice: ${Price:F2}\n\tRating: {Rating}";
-        }*/
-        public string? Display{
-            get
-            {
-                return $"ID: {ID}\tName: {Name}\tQuantity: {Quantity}\tPrice: ${Price:F2}\tRating: {Rating}";
-            }
-
+            get => $"ID: {ID}\tName: {Name}\tQuantity: {Quantity}\tPrice: ${Price:F2}\tRating: {Rating}";
         }
+
         public override string ToString()
         {
-            return Display ?? string.Empty; 
+            return Display ?? string.Empty;
         }
     }
 }

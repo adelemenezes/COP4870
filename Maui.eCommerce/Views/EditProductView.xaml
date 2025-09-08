@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui.eCommerce.Views.EditProductView"
+             Title="Edit Product">
+    <!-- Identical layout to AddProductView -->
+    <VerticalStackLayout Spacing="15" Padding="20">
+        <Label Text="Product Name:"/>
+        <Entry Text="{Binding Name}" Placeholder="Required"/>
+        <Label Text="Quantity:"/>
+        <Entry Text="{Binding Quantity}" Keyboard="Numeric"/>
+        <Label Text="Price:"/>
+        <Entry Text="{Binding Price}" Keyboard="Numeric"/>
+        <Label Text="Rating (1-5):"/>
+        <Entry Text="{Binding Rating}" Keyboard="Numeric"/>
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Text="Cancel" Clicked="OnCancelClicked" Grid.Column="0"/>
+            <Button Text="Save Changes" Clicked="OnSaveClicked" Grid.Column="1"/>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

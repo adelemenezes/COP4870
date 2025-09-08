@@ -5,14 +5,19 @@
 
     <ScrollView>
         <VerticalStackLayout>
-            <Label
-                Text="{Binding Display}"/>
+            <Label Text="Adele's eCommerce Platform"
+               FontSize="Large"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
             <Button
                 Text="Inventory Management"
                     Clicked="InventoryManagementClicked"/>
             <Button
                 Text="Shopping"
                     Clicked="ShoppingClicked" />
+            <Button
+                Text="Settings"
+                    Clicked="SettingsClicked" />
         </VerticalStackLayout>
         
     </ScrollView>

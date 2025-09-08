@@ -1,37 +1,64 @@
-namespace Maui.eCommerce.Views;
 using Maui.eCommerce.ViewModels;
-using Library.eCommerce.Models;
 using Library.eCommerce.Services;
-using Library.eCommerce.Interfaces;
+using Library.eCommerce.Models;
 
-public partial class InventoryManagementView : ContentPage
+namespace Maui.eCommerce.Views
 {
-	public InventoryManagementView()
-	{
-		InitializeComponent();
-		BindingContext = new InventoryManagementViewModel(); // set the binding context to the view model
-	}
+    public partial class InventoryManagementView : ContentPage
+    {
+        public InventoryManagementView()
+        {
+            InitializeComponent();
+    
+            var productService = ProductServiceProxy.Current;
+            var cartService = ProductServiceProxy.CartService; 
+            var commerceService = new CommerceService(productService, cartService);
+            
+            BindingContext = new InventoryManagementViewModel(commerceService);
+        }
 
-	private void ReturnToManagementMenuClicked(object sender, EventArgs e)
-	{
-		Shell.Current.GoToAsync("//MainPage");
-	}
+        private void ReturnToManagementMenuClicked(object sender, EventArgs e) 
+            => Shell.Current.GoToAsync("//MainPage");
 
-	private void DeleteClicked(object sender, EventArgs e){
-		(BindingContext as InventoryManagementViewModel)?.Delete(); // delete the selected product
-	}
-	private void AddClicked(object sender, EventArgs e){
-		Shell.Current.GoToAsync("//ProductDetails"); // go to the add product page
-	}
+        private void AddClicked(object sender, EventArgs e) 
+            => Shell.Current.GoToAsync("//AddProductView");
 
-	private void ContentPage_NavigatingTo(object sender, NavigatedToEventArgs e)
-	{
-		// this is called when the page is navigated to
-		// we can put any code here that we want to run when the page is navigated to
-		// for example, we can refresh the data in the view model
-		(BindingContext as InventoryManagementViewModel)?.RefreshProductList(); // notify the view that the products have changed
-																				// if as fails it returns null
-																				// type coersion
-		
-	}
+        private void EditClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.BindingContext is Product product)
+            {
+                Shell.Current.GoToAsync($"//EditProductView?productId={product.ID}");
+            }
+        }
+
+        private void DeleteClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.BindingContext is Product product)
+            {
+                if (BindingContext is InventoryManagementViewModel vm)
+                {
+                    vm.DeleteProduct(product);
+                }
+            }
+        }
+
+        private void AddToCartClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.BindingContext is Product product)
+            {
+                if (BindingContext is InventoryManagementViewModel vm)
+                {
+                    vm.AddToCart(product);
+                }
+            }
+        }
+
+        private void OnNavigatedTo(object sender, NavigatedToEventArgs e)
+        {
+            if (BindingContext is InventoryManagementViewModel vm)
+            {
+                vm.RefreshProductList();
+            }
+        }
+    }
 }

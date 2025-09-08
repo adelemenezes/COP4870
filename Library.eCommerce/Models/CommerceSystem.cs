@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Library.eCommerce.Models; // For Product class
+using Library.eCommerce.Models;
 using Library.eCommerce.Services;
 
 namespace Library.eCommerce.Models
@@ -16,7 +16,8 @@ namespace Library.eCommerce.Models
         const int DEFAULT_QUANTITY = 0;
         const double DEFAULT_PRICE = 0.00;
         const int DEFAULT_RATING = 0;
-        const float DEFAULT_TAX = 7f;
+
+        public float TaxRate { get; set; } = 7.0f;
 
         public CommerceSystem()
         {
@@ -25,9 +26,10 @@ namespace Library.eCommerce.Models
             Cart = new List<Product>();
         }
 
-       public bool CreateItem()
+        public bool CreateItem()
         {
             Console.WriteLine("Please enter the following: ");
+
             Console.Write("Name: ");
             string name = Console.ReadLine() ?? string.Empty;
 
@@ -49,8 +51,7 @@ namespace Library.eCommerce.Models
 
             Console.WriteLine("Invalid input - item not created");
             return false;
-}
-
+        }
 
         public void Read(char whichList)
         {
@@ -73,6 +74,7 @@ namespace Library.eCommerce.Models
         {
             Console.Write("Please give the ID of the item you would like updated: ");
             string input = Console.ReadLine() ?? string.Empty;
+
             if (!long.TryParse(input, out long id))
             {
                 Console.WriteLine("Invalid entry.");
@@ -90,47 +92,59 @@ namespace Library.eCommerce.Models
                     Console.WriteLine("\t\tEnter A: Update all.");
 
                     char selection = char.ToUpper(Console.ReadLine()?[0] ?? ' ');
+
                     switch (selection)
                     {
                         case 'N':
                             Console.Write("New name: ");
                             p.Name = ValidateName(Console.ReadLine() ?? string.Empty);
                             break;
+
                         case 'Q':
                             Console.Write("New quantity: ");
                             p.Quantity = ValidateQuantity(Console.ReadLine() ?? string.Empty);
                             break;
+
                         case 'P':
                             Console.Write("New price: ");
                             p.Price = ValidatePrice(Console.ReadLine() ?? string.Empty);
                             break;
+
                         case 'R':
                             Console.Write("New Rating: ");
                             p.Rating = ValidateRating(Console.ReadLine() ?? string.Empty);
                             break;
+
                         case 'A':
                             Console.Write("New name: ");
                             p.Name = ValidateName(Console.ReadLine() ?? string.Empty);
+
                             Console.Write("New Quantity: ");
                             p.Quantity = ValidateQuantity(Console.ReadLine() ?? string.Empty);
+
                             Console.Write("New price: ");
                             p.Price = ValidatePrice(Console.ReadLine() ?? string.Empty);
+
                             Console.Write("New Rating: ");
                             p.Rating = ValidateRating(Console.ReadLine() ?? string.Empty);
                             break;
+
                         default:
                             Console.WriteLine("Sorry! That choice is not an option.");
                             return false;
                     }
+
                     return true;
                 }
             }
+
             return false;
         }
 
         public bool UpdateItemAmount()
         {
             Console.Write("Please give ID of the item you would like updated: ");
+
             if (!long.TryParse(Console.ReadLine() ?? string.Empty, out long id))
             {
                 Console.WriteLine("ERROR: Invalid ID.");
@@ -140,8 +154,8 @@ namespace Library.eCommerce.Models
             Console.Write("New quantity: ");
             int tempQ = ValidateQuantity(Console.ReadLine() ?? string.Empty);
 
-            Product cartItem = Cart.Find(p => p.ID == id);
-            Product inventoryItem = Inventory.Find(p => p.ID == id);
+            Product? cartItem = Cart.Find(p => p.ID == id);
+            Product? inventoryItem = Inventory.Find(p => p.ID == id);
 
             if (cartItem == null || inventoryItem == null)
             {
@@ -168,6 +182,7 @@ namespace Library.eCommerce.Models
                     Console.WriteLine("ERROR: Not enough items in inventory.");
                     return false;
                 }
+
                 inventoryItem.Quantity -= tempQ - oldQuantity;
                 cartItem.Quantity = tempQ;
             }
@@ -182,6 +197,7 @@ namespace Library.eCommerce.Models
         public bool RemoveItem()
         {
             Console.Write("Please give ID of the item you would like deleted: ");
+
             if (!long.TryParse(Console.ReadLine() ?? string.Empty, out long id))
             {
                 return false;
@@ -190,8 +206,8 @@ namespace Library.eCommerce.Models
             bool foundInInventory = _productService.Products.RemoveAll(p => p?.ID == id) > 0;
             bool foundInCart = Cart.RemoveAll(p => p.ID == id) > 0;
 
-            Console.WriteLine(foundInInventory 
-                ? $"Successfully removed ID: {id} from Inventory." 
+            Console.WriteLine(foundInInventory
+                ? $"Successfully removed ID: {id} from Inventory."
                 : $"ID: {id} was not found in the inventory.");
 
             Console.WriteLine(foundInCart
@@ -204,14 +220,15 @@ namespace Library.eCommerce.Models
         public bool RemoveFromCart()
         {
             Console.Write("Please give the ID of the item you would like deleted: ");
+
             if (!long.TryParse(Console.ReadLine() ?? string.Empty, out long id))
             {
                 Console.WriteLine("ERROR: Invalid ID.");
                 return false;
             }
 
-            Product cartItem = Cart.Find(p => p.ID == id);
-            Product inventoryItem = Inventory.Find(p => p.ID == id);
+            Product? cartItem = Cart.Find(p => p.ID == id);
+            Product? inventoryItem = Inventory.Find(p => p.ID == id);
 
             if (cartItem == null || inventoryItem == null)
             {
@@ -228,13 +245,15 @@ namespace Library.eCommerce.Models
         public bool AddToCart()
         {
             Console.Write("Please give ID of the item you would like to add to the cart: ");
+
             if (!long.TryParse(Console.ReadLine() ?? string.Empty, out long id) || id <= 0)
             {
                 Console.WriteLine("ERROR: Invalid ID.");
                 return false;
             }
 
-            Product inventoryItem = Inventory.Find(p => p.ID == id);
+            Product? inventoryItem = Inventory.Find(p => p.ID == id);
+
             if (inventoryItem == null)
             {
                 Console.WriteLine("ERROR: Item could not be found.");
@@ -247,7 +266,8 @@ namespace Library.eCommerce.Models
                 return false;
             }
 
-            Product cartItem = Cart.Find(p => p.ID == id);
+            Product? cartItem = Cart.Find(p => p.ID == id);
+
             if (cartItem != null)
             {
                 cartItem.Quantity++;
@@ -260,6 +280,7 @@ namespace Library.eCommerce.Models
 
             inventoryItem.Quantity--;
             Console.WriteLine($"Successfully added {inventoryItem.Name} ID: {id} to the cart.");
+
             return true;
         }
 
@@ -267,27 +288,33 @@ namespace Library.eCommerce.Models
         {
             double total = 0;
             int numberOfItems = 0;
+
             Console.WriteLine("\n********** CHECKOUT **********");
+
             foreach (Product p in Cart)
             {
                 Console.WriteLine($"{p.Name}");
                 Console.WriteLine($"\t${p.Price}");
                 Console.WriteLine($"\tQuantity: {p.Quantity}");
+
                 total += p.Price * p.Quantity;
                 numberOfItems += p.Quantity;
             }
+
             Console.WriteLine("\n******************************");
             Console.WriteLine($"\nNumber of items: {numberOfItems}");
             Console.WriteLine($"Total Without tax: ${total:F2}");
-            double tax = total * DEFAULT_TAX / 100;
-            Console.WriteLine($"Tax ({DEFAULT_TAX:F1}%): ${tax:F2}");
+
+            double tax = total * TaxRate / 100;
+
+            Console.WriteLine($"Tax ({TaxRate:F1}%): ${tax:F2}");
             Console.WriteLine($"Total with tax: ${(total + tax):F2}");
 
             Console.WriteLine("\nThank you for your order!");
             Cart.Clear();
         }
 
-        private string ValidateName(string name) => 
+        private string ValidateName(string name) =>
             string.IsNullOrWhiteSpace(name) ? DEFAULT_NAME : name;
 
         private int ValidateQuantity(string input) =>
